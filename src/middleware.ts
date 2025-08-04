@@ -5,7 +5,7 @@ export default async function middleware(req: NextRequest) {
 
   const publicUrl = [
     "/login",
-    "/sign-up",
+    "/signup",
     "/forgot-password",
     "/reset-password",
     "/not-found",

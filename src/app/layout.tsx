@@ -27,8 +27,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="theme-color" content="#2C323E" />
-      <body className={`${geistSans.variable} ${heading.variable} antialiased`}>
-        <Toaster richColors position="bottom-right" closeButton />
+      <body
+        className={`${geistSans.variable} ${heading.variable} overflow-x-hidden antialiased`}
+      >
+        <Toaster
+          richColors
+          position="top-center"
+          className="font-(family-name:--font-paragraph)"
+          closeButton
+        />
         {children}
       </body>
     </html>
