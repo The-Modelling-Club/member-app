@@ -4,20 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSignUpStore } from "@/lib/signup-store";
-import { securitySchema, signUpSchema } from "@/lib/signup-schema";
+import { securitySchema } from "@/lib/signup-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { pubAxios } from "@/lib/api";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import formatError from "@/utils/error";
 
 export function SecurityStep() {
-  const { formData, updateFormData, prevStep, setIsSubmitting, isSubmitting } =
+  const { formData, updateFormData, prevStep, nextStep, isSubmitting } =
     useSignUpStore();
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -32,27 +27,9 @@ export function SecurityStep() {
   const onSubmit: SubmitHandler<{
     password: string;
     confirm_password: string;
-  }> = async (data) => {
+  }> = (data) => {
     updateFormData(data);
-    setIsSubmitting(true);
-
-    try {
-      const { confirm_password, ...validatedData } = signUpSchema.parse({
-        ...formData,
-        ...data,
-      });
-      await pubAxios.post("/auth/signup", validatedData);
-
-      toast.success("Signup successful!");
-
-      router.push(
-        `/verify-otp?email=${encodeURIComponent(validatedData.email)}`
-      );
-    } catch (error) {
-      toast.error(formatError(error));
-    } finally {
-      setIsSubmitting(false);
-    }
+    nextStep();
   };
 
   return (
@@ -133,7 +110,7 @@ export function SecurityStep() {
             Back
           </Button>
           <Button type="submit" className="flex-1" disabled={isSubmitting}>
-            {isSubmitting ? "Creating Account..." : "Create Account"}
+            Continue
           </Button>
         </div>
       </div>

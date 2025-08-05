@@ -6,7 +6,7 @@ export const pubAxios = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000,
+  timeout: 30000,
 });
 
 export const privateAxios = axios.create({
@@ -14,7 +14,7 @@ export const privateAxios = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000,
+  timeout: 30000,
 });
 
 privateAxios.interceptors.request.use(

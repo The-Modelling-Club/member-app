@@ -24,6 +24,7 @@ const initialFormData: SignUpFormData = {
   type: "Student",
   school: "",
   programme: "",
+  level: "",
 };
 
 export const useSignUpStore = create<SignUpStore>((set) => ({
@@ -49,7 +50,7 @@ export const useSignUpStore = create<SignUpStore>((set) => ({
 
   nextStep: () =>
     set((state) => ({
-      currentStep: Math.min(state.currentStep + 1, 2),
+      currentStep: Math.min(state.currentStep + 1, 3),
     })),
 
   prevStep: () =>
