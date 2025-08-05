@@ -33,6 +33,12 @@ export function PaymentStep() {
 
       const res = await pubAxios.post("/auth/signup", validatedData);
 
+      if (res.data.paymentUrl) {
+        toast.success("Account already exists! Please proceed to payment.");
+        router.push(res.data.paymentUrl);
+        return;
+      }
+
       if (res.data) {
         toast.success(
           "Account created successfully! Please check your email for verification."

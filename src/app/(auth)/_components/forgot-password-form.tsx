@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { pubAxios } from "@/lib/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -36,6 +36,7 @@ export function ForgotPasswordForm({
 }: React.ComponentProps<"div">) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
+  const [countdown, setCountdown] = useState(30);
 
   const form = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -43,6 +44,16 @@ export function ForgotPasswordForm({
       email: "",
     },
   });
+
+  // Countdown effect
+  useEffect(() => {
+    if (isEmailSent && countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isEmailSent, countdown]);
 
   async function onSubmit(data: ForgotPasswordFormData) {
     setIsSubmitting(true);
@@ -52,6 +63,7 @@ export function ForgotPasswordForm({
       });
 
       setIsEmailSent(true);
+      setCountdown(30); // Reset countdown
       toast.success("Password reset email sent successfully!");
     } catch (error) {
       toast.error(formatError(error));
@@ -59,6 +71,12 @@ export function ForgotPasswordForm({
       setIsSubmitting(false);
     }
   }
+
+  const handleTryAgain = () => {
+    setIsEmailSent(false);
+    setCountdown(30);
+    form.reset();
+  };
 
   if (isEmailSent) {
     return (
@@ -84,11 +102,12 @@ export function ForgotPasswordForm({
             Didn't receive the email? Check your spam folder or try again.
           </p>
           <Button
-            onClick={() => setIsEmailSent(false)}
+            onClick={handleTryAgain}
             variant="outline"
             className="w-full"
+            disabled={countdown > 0}
           >
-            Try again
+            {countdown > 0 ? `Try again in ${countdown}s` : "Try again"}
           </Button>
         </div>
 
