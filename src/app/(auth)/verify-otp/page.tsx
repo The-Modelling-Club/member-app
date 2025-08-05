@@ -1,5 +1,6 @@
 import { InputOTPForm } from "../_components/verify-otp-form";
 import Image from "next/image";
+import { Suspense } from "react";
 
 export default function VerifyOTPPage() {
   return (
@@ -25,7 +26,9 @@ export default function VerifyOTPPage() {
             </p>
           </div>
           <div className=" mt-10 w-[21rem] mx-auto">
+            <Suspense>
             <InputOTPForm />
+            </Suspense>
           </div>
         </div>
       </div>
