@@ -20,7 +20,7 @@ export const privateAxios = axios.create({
 privateAxios.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token = Cookies.get("token");
+      const token = Cookies.get("tmcAuthToken");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -34,11 +34,36 @@ privateAxios.interceptors.request.use(
 
 privateAxios.interceptors.response.use(
   (response: AxiosResponse) => response,
-  (error: AxiosError) => {
-    if (error.response?.status === 401) {
+  async (error: AxiosError) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && originalRequest) {
       if (typeof window !== "undefined") {
-        Cookies.remove("token");
-        window.location.href = "/login";
+        const refreshToken = Cookies.get("tmcRefreshToken");
+
+        if (refreshToken) {
+          try {
+            const response = await pubAxios.post("/auth/refresh", {
+              refresh_token: refreshToken,
+            });
+
+            if (response.data.access_token) {
+              Cookies.set("tmcAuthToken", response.data.access_token);
+              originalRequest.headers.Authorization = `Bearer ${response.data.access_token}`;
+              return privateAxios(originalRequest);
+            }
+          } catch (refreshError) {
+            Cookies.remove("tmcAuthToken");
+            Cookies.remove("tmcRefreshToken");
+            Cookies.remove("tmcUserData");
+            window.location.href = "/login";
+          }
+        } else {
+          Cookies.remove("tmcAuthToken");
+          Cookies.remove("tmcRefreshToken");
+          Cookies.remove("tmcUserData");
+          window.location.href = "/login";
+        }
       }
     }
     return Promise.reject(error);

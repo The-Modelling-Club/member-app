@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CheckCircle, CreditCard, Users, GraduationCap } from "lucide-react";
+import { CreditCard } from "lucide-react";
 
 export function PaymentStep() {
   const { formData, prevStep, setIsSubmitting, isSubmitting } =

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { pubAxios } from "@/lib/api";
-import { setToken } from "@/app/lib/auth";
+import { setAuthData } from "@/app/lib/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
@@ -57,14 +57,14 @@ export function LoginForm({
   async function onSubmit(data: LoginFormData) {
     setIsSubmitting(true);
     try {
-      const response = await pubAxios.post("/auth/login", {
+      const response = await pubAxios.post("/auth/signin", {
         email: data.email,
-        membershipId: data.membershipId,
+        membership_id: data.membershipId,
         password: data.password,
       });
 
-      if (response.data.token) {
-        setToken(response.data.token);
+      if (response.data) {
+        setAuthData(response.data);
         toast.success("Login successful!");
         router.push("/dashboard");
       } else {
