@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 
 export const pubAxios = axios.create({
-  baseURL: "https://tmc-server-1h3p.onrender.com",
+  baseURL: "http://localhost:4000",
   headers: {
     "Content-Type": "application/json",
   },
@@ -10,7 +10,7 @@ export const pubAxios = axios.create({
 });
 
 export const privateAxios = axios.create({
-  baseURL: "https://tmc-server-1h3p.onrender.com",
+  baseURL: "http://localhost:4000",
   headers: {
     "Content-Type": "application/json",
   },

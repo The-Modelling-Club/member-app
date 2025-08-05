@@ -3,6 +3,8 @@ import Cookies from "js-cookie";
 export interface User {
   id: string;
   email: string;
+  first_name: string;
+  last_name: string;
   role: string;
   membership_id: string;
   type: string;

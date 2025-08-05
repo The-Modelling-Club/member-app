@@ -43,10 +43,7 @@ export default function DashboardPage() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader>
-              <CardTitle>Welcome, {user.email}!</CardTitle>
-              <CardDescription>
-                You have successfully logged into your account.
-              </CardDescription>
+              <CardTitle>Welcome, {user.first_name}!</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-600">
@@ -101,13 +98,15 @@ export default function DashboardPage() {
               <CardTitle>Academic Information</CardTitle>
               <CardDescription>Your educational details</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <div className="space-y-2">
-                <div className="flex justify-between">
+                <div className="flex flex-col ">
                   <span className="text-sm text-gray-600">School:</span>
                   <span className="text-sm font-medium">{user.school}</span>
                 </div>
-                <div className="flex justify-between">
+              </div>
+              <div className="space-y-2">
+                <div className="flex flex-col">
                   <span className="text-sm text-gray-600">Programme:</span>
                   <span className="text-sm font-medium">{user.programme}</span>
                 </div>
@@ -123,35 +122,17 @@ export default function DashboardPage() {
             <CardContent>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Email:</span>
-                  <span className="text-sm font-medium">{user.email}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">User ID:</span>
-                  <span className="text-sm font-medium text-gray-500">
-                    {user.id}
+                  <span className="text-sm text-gray-600">Full Name:</span>
+                  <span className="text-sm font-medium">
+                    {user.first_name} {user.last_name}
                   </span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Common tasks and shortcuts</CardDescription>
-            </CardHeader>
-            <CardContent>
               <div className="space-y-2">
-                <Button variant="outline" className="w-full justify-start">
-                  Update Profile
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  View Membership Details
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Contact Support
-                </Button>
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-600">Email:</span>
+                  <span className="text-sm font-medium">{user.email}</span>
+                </div>
               </div>
             </CardContent>
           </Card>
