@@ -42,7 +42,7 @@ export function SignUpForm({
         </p>
 
         {/* Progress Bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+        <div className="w-full hidden lg:block bg-gray-200 rounded-full h-2 mb-4">
           <div
             className="bg-primary h-2 rounded-full transition-all duration-300 ease-in-out"
             style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
@@ -50,7 +50,7 @@ export function SignUpForm({
         </div>
 
         {/* Step Titles */}
-        <div className="flex justify-between text-xs text-gray-500">
+        <div className="flex hidden lg:block justify-between text-xs text-gray-500">
           {steps.map((step, index) => (
             <div
               key={index}
