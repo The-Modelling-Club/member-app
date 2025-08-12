@@ -46,11 +46,20 @@ export const signUpSchema = z
   )
   .refine(
     (data) =>
-      data.type !== "Graduate" ||
-      (!!data.completion_year && !!data.current_role && !!data.company),
+      !(data.type === "Student" && data.student_type === "Postgraduate") ||
+      data.level === "PhD" ||
+      data.level === "Masters",
     {
-      message:
-        "For Graduate, provide completion year, current role, and company",
+      message: "For Postgraduate students, choose PhD or Masters",
+      path: ["level"],
+    }
+  )
+  .refine(
+    (data) =>
+      data.type !== "Graduate" ||
+      (!!data.current_role && !!data.company && !!data.school),
+    {
+      message: "For Graduate, provide alma mater, current role, and company",
       path: ["type"],
     }
   );
@@ -87,11 +96,20 @@ export const academicSchema = signUpSchema
   )
   .refine(
     (data) =>
-      data.type !== "Graduate" ||
-      (!!data.completion_year && !!data.current_role && !!data.company),
+      !(data.type === "Student" && data.student_type === "Postgraduate") ||
+      data.level === "PhD" ||
+      data.level === "Masters",
     {
-      message:
-        "For Graduate, provide completion year, current role, and company",
+      message: "For Postgraduate students, choose PhD or Masters",
+      path: ["level"],
+    }
+  )
+  .refine(
+    (data) =>
+      data.type !== "Graduate" ||
+      (!!data.school && !!data.current_role && !!data.company),
+    {
+      message: "For Graduate, provide alma mater, current role, and company",
       path: ["type"],
     }
   );

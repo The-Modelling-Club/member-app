@@ -148,38 +148,61 @@ export function AcademicStep() {
               )}
             </div>
 
-            <div className="grid gap-3">
-              <Label htmlFor="level">Level</Label>
-              <Input
-                id="level"
-                type="text"
-                placeholder="Enter your level of study (e.g. 100)"
-                className="!bg-white"
-                {...stepForm.register("level")}
-              />
-              {stepForm.formState.errors.level && (
-                <p className="text-sm text-red-500">
-                  {stepForm.formState.errors.level.message as string}
-                </p>
-              )}
-            </div>
+            {stepForm.watch("student_type") === "Postgraduate" ? (
+              <div className="grid gap-3">
+                <Label htmlFor="level">Level of Study</Label>
+                <Select
+                  value={stepForm.watch("level")}
+                  onValueChange={(value) => stepForm.setValue("level", value)}
+                >
+                  <SelectTrigger className="w-full ">
+                    <SelectValue placeholder="Select level (PhD or Masters)" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="PhD">PhD</SelectItem>
+                    <SelectItem value="Masters">Masters</SelectItem>
+                  </SelectContent>
+                </Select>
+                {stepForm.formState.errors.level && (
+                  <p className="text-sm text-red-500">
+                    {stepForm.formState.errors.level.message as string}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="grid gap-3">
+                <Label htmlFor="level">Level</Label>
+                <Input
+                  id="level"
+                  type="text"
+                  placeholder="Enter your level of study (e.g. 100)"
+                  className="!bg-white"
+                  {...stepForm.register("level")}
+                />
+                {stepForm.formState.errors.level && (
+                  <p className="text-sm text-red-500">
+                    {stepForm.formState.errors.level.message as string}
+                  </p>
+                )}
+              </div>
+            )}
           </>
         )}
 
         {stepForm.watch("type") === "Graduate" && (
           <>
             <div className="grid gap-3">
-              <Label htmlFor="completion_year">Year of Completion</Label>
+              <Label htmlFor="school">Alma mater</Label>
               <Input
-                id="completion_year"
+                id="school"
                 type="text"
-                placeholder="YYYY"
+                placeholder="Enter your alma mater"
                 className="!bg-white"
-                {...stepForm.register("completion_year")}
+                {...stepForm.register("school")}
               />
-              {stepForm.formState.errors.completion_year && (
+              {stepForm.formState.errors.school && (
                 <p className="text-sm text-red-500">
-                  {stepForm.formState.errors.completion_year.message as string}
+                  {stepForm.formState.errors.school.message as string}
                 </p>
               )}
             </div>
