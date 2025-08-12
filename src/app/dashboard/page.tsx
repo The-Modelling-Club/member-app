@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { logout, getUserData } from "@/app/lib/auth";
+import { getUserData } from "@/app/lib/auth";
 import {
   Card,
   CardContent,
@@ -11,6 +10,9 @@ import {
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { User } from "@/app/lib/auth";
+import Image from "next/image";
+import Welcome from "@/assets/images/welcome.png";
+import AnalyticsGraph from "./_components/analytics_graphs";
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -22,7 +24,7 @@ export default function DashboardPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Loading...</h1>
         </div>
@@ -31,69 +33,30 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <Button onClick={logout} variant="outline">
-            Logout
-          </Button>
+    <div>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">Overview</h1>
+      <div className={"grid gap-6 lg:grid-cols-[65%_auto]"}>
+        <div className={"relative max-h-80 w-full !overflow-hidden"}>
+          <section className="absolute bottom-0 z-10 p-6 text-white">
+            <p className="mb-2 text-3xl font-semibold">
+              Welcome {user?.last_name || "Admin"} 👋
+            </p>
+            <p className="text-white/80">
+              This is your member dashboard. You can access your membership
+              details, update your profile, and manage your account settings
+              from here.
+            </p>
+          </section>
+          <div className="absolute left-0 top-0 h-full w-full rounded-xl bg-gradient-to-tr from-black/90 via-black/70 to-black/10" />
+          <Image
+            src={Welcome}
+            alt={"Welcome image"}
+            className={"h-full w-full rounded-xl object-cover"}
+            width={3000}
+          />
         </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>Welcome, {user.first_name}!</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600">
-                This is your member dashboard. You can access your membership
-                details, update your profile, and manage your account settings
-                from here.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Membership Status</CardTitle>
-              <CardDescription>
-                Your current membership information
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Status:</span>
-                  <span
-                    className={`text-sm font-medium ${
-                      user.status === "Active"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {user.status}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Membership ID:</span>
-                  <span className="text-sm font-medium">
-                    {user.membership_id}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Type:</span>
-                  <span className="text-sm font-medium">{user.type}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Role:</span>
-                  <span className="text-sm font-medium">{user.role}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
+        <div className="space-y-6 h-full">
+          <Card className="h-full">
             <CardHeader>
               <CardTitle>Academic Information</CardTitle>
               <CardDescription>Your educational details</CardDescription>
@@ -113,31 +76,9 @@ export default function DashboardPage() {
               </div>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Account Information</CardTitle>
-              <CardDescription>Your account details</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Full Name:</span>
-                  <span className="text-sm font-medium">
-                    {user.first_name} {user.last_name}
-                  </span>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Email:</span>
-                  <span className="text-sm font-medium">{user.email}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
+      <AnalyticsGraph />
     </div>
   );
 }

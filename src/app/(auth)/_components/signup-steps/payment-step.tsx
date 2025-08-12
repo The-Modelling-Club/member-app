@@ -28,8 +28,7 @@ export function PaymentStep() {
     setIsSubmitting(true);
 
     try {
-      const { confirm_password, ...validatedData } =
-        signUpSchema.parse(formData);
+      const validatedData = signUpSchema.parse(formData);
 
       const res = await pubAxios.post("/auth/signup", validatedData);
 

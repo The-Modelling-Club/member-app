@@ -11,6 +11,12 @@ export interface User {
   school: string;
   programme: string;
   status: string;
+  // Optional membership details
+  student_type?: "Undergraduate" | "Postgraduate";
+  completion_year?: string;
+  current_role?: string;
+  company?: string;
+  photo_url?: string;
 }
 
 export interface AuthData {
@@ -52,6 +58,15 @@ export function getUserData(): User | null {
   } catch {
     return null;
   }
+}
+
+export function updateUserData(update: Partial<User>): User | null {
+  if (typeof window === "undefined") return null;
+  const existing = getUserData();
+  if (!existing) return null;
+  const merged: User = { ...existing, ...update } as User;
+  Cookies.set("tmcUserData", JSON.stringify(merged));
+  return merged;
 }
 
 export function getRefreshToken() {

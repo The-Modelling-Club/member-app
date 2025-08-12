@@ -17,14 +17,43 @@ export const signUpSchema = z
       ),
     confirm_password: z.string().min(1, "Please confirm your password"),
     type: z.enum(["Graduate", "Student"]),
-    school: z.string().min(1, "School/Institution is required"),
+    // Academic fields – conditionally required based on `type`
     programme: z.string().min(1, "Programme is required"),
-    level: z.string().min(1, "Level is required"),
+    school: z.string().optional(),
+    level: z.string().optional(),
+    student_type: z.enum(["Undergraduate", "Postgraduate"]).optional(),
+    completion_year: z
+      .string()
+      .regex(/^\d{4}$/, "Enter a valid year (YYYY)")
+      .optional(),
+    current_role: z.string().optional(),
+    company: z.string().optional(),
   })
   .refine((data) => data.password === data.confirm_password, {
     message: "Passwords don't match",
     path: ["confirm_password"],
-  });
+  })
+  // Conditional requirements for academic fields
+  .refine(
+    (data) =>
+      data.type !== "Student" ||
+      (!!data.student_type && !!data.school && !!data.level),
+    {
+      message:
+        "For Student, select study level and fill school and level of study",
+      path: ["type"],
+    }
+  )
+  .refine(
+    (data) =>
+      data.type !== "Graduate" ||
+      (!!data.completion_year && !!data.current_role && !!data.company),
+    {
+      message:
+        "For Graduate, provide completion year, current role, and company",
+      path: ["type"],
+    }
+  );
 
 export type SignUpFormData = z.infer<typeof signUpSchema>;
 
@@ -35,12 +64,37 @@ export const personalInfoSchema = signUpSchema.pick({
   email: true,
 });
 
-export const academicSchema = signUpSchema.pick({
-  type: true,
-  school: true,
-  programme: true,
-  level: true,
-});
+export const academicSchema = signUpSchema
+  .pick({
+    type: true,
+    programme: true,
+    school: true,
+    level: true,
+    student_type: true,
+    completion_year: true,
+    current_role: true,
+    company: true,
+  })
+  .refine(
+    (data) =>
+      data.type !== "Student" ||
+      (!!data.student_type && !!data.school && !!data.level),
+    {
+      message:
+        "For Student, select study level and fill school and level of study",
+      path: ["type"],
+    }
+  )
+  .refine(
+    (data) =>
+      data.type !== "Graduate" ||
+      (!!data.completion_year && !!data.current_role && !!data.company),
+    {
+      message:
+        "For Graduate, provide completion year, current role, and company",
+      path: ["type"],
+    }
+  );
 
 export const securitySchema = signUpSchema
   .pick({

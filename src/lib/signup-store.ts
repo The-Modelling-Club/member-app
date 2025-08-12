@@ -22,9 +22,15 @@ const initialFormData: SignUpFormData = {
   password: "",
   confirm_password: "",
   type: "Student",
-  school: "",
   programme: "",
+  // Student fields
+  school: "",
   level: "",
+  student_type: undefined,
+  // Graduate fields
+  completion_year: undefined,
+  current_role: "",
+  company: "",
 };
 
 export const useSignUpStore = create<SignUpStore>((set) => ({

@@ -50,7 +50,7 @@ export function SignUpForm({
         </div>
 
         {/* Step Titles */}
-        <div className="flex hidden lg:block justify-between text-xs text-gray-500">
+        <div className="hidden lg:flex justify-between text-xs text-gray-500">
           {steps.map((step, index) => (
             <div
               key={index}

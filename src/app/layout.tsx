@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Cormorant } from "next/font/google";
+import { Bricolage_Grotesque, Cormorant, Sora } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 const geistSans = Bricolage_Grotesque({
@@ -7,7 +7,7 @@ const geistSans = Bricolage_Grotesque({
   subsets: ["latin"],
 });
 
-const heading = Cormorant({
+const heading = Sora({
   variable: "--font-heading",
   subsets: ["latin"],
   weight: "400",
