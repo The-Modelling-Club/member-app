@@ -2,19 +2,19 @@
 
 import Image from "next/image";
 import { EventItem } from "@/types/event";
-
+import { formatDate } from "@/utils/format-date";
 export function EventCard({
   event,
   onClick,
-}: {
+}: Readonly<{
   event: EventItem;
   onClick: (event: EventItem) => void;
-}) {
+}>) {
   return (
     <button onClick={() => onClick(event)} className="block w-full text-left">
       <div className="relative h-64 w-full overflow-hidden rounded-lg">
         <Image
-          src={event.event_image}
+          src={event.event_img}
           alt={event.title}
           width={800}
           height={400}
@@ -28,10 +28,9 @@ export function EventCard({
             event.status === "upcoming"
               ? "bg-emerald-600"
               : event.status === "ongoing"
-              ? "bg-blue-600"
-              : "bg-gray-600"
-          }`}
-        >
+                ? "bg-blue-600"
+                : "bg-gray-600"
+          }`}>
           {event.status}
         </span>
 
@@ -40,7 +39,7 @@ export function EventCard({
             {event.title}
           </h3>
           <div className="mt-1 flex items-center justify-between text-xs text-white/70">
-            <span className="truncate mr-2">{event.date}</span>
+            <span className="truncate mr-2">{formatDate(event.date)}</span>
             <span className="truncate text-right">{event.location}</span>
           </div>
         </div>
