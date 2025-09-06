@@ -11,16 +11,17 @@ import { EventItem } from "@/types/event";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { formatDate } from "@/utils/format-date";
 
 export function EventDrawer({
   open,
   onOpenChange,
   event,
-}: {
+}: Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   event: EventItem | null;
-}) {
+}>) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:w-[28rem]">
@@ -28,9 +29,10 @@ export function EventDrawer({
           <div className="flex h-full flex-col overflow-hidden">
             <div className="relative h-48 w-full overflow-hidden">
               <Image
-                src={event.event_image}
+                src={event.event_img}
                 alt={event.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 28rem"
                 className="object-cover"
               />
             </div>
@@ -38,7 +40,7 @@ export function EventDrawer({
               <SheetHeader>
                 <SheetTitle>{event.title}</SheetTitle>
                 <SheetDescription>
-                  {event.location} • {event.date}
+                  {event.location} • {formatDate(event.date)}
                 </SheetDescription>
               </SheetHeader>
 
@@ -47,7 +49,9 @@ export function EventDrawer({
               </div>
             </div>
             <div className="mt-auto py-4 px-4">
-              <Link href={`/dashboard/events/${event.slug}`}>
+              <Link
+                href={`${process.env.NEXT_PUBLIC_LANDING_URL}/${event.slug}`}
+                target="_blank">
                 <Button className="w-full">Read details</Button>
               </Link>
             </div>
