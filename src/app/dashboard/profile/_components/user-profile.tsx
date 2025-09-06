@@ -37,8 +37,6 @@ export default function UserProfile() {
     setAvatar(newAvatar || "");
   };
 
-  console.log("User data:", user);
-
   useEffect(() => {
     if (user) {
       setProfileData((prev) => ({
