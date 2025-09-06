@@ -32,6 +32,11 @@ const NAV_ITEMS: Array<{ href: string; label: string; icon: string }> = [
     label: "Membership",
     icon: "mdi:card-account-details-outline",
   },
+  {
+    href: "/dashboard/achievements",
+    label: "Achievements",
+    icon: "mdi:trophy-outline",
+  },
 ];
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
@@ -77,8 +82,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     variant={isActive ? "default" : "ghost"}
                     className={`w-full justify-start rounded-full transition-all duration-300 ease-in-out gap-2 ${
                       isActive ? "font-semibold" : ""
-                    }`}
-                  >
+                    }`}>
                     <Icon icon={item.icon} className="h-4 w-4" />
                     {item.label}
                   </Button>
@@ -125,21 +129,18 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           className={`md:hidden fixed inset-y-0 left-0 z-40 w-screen bg-white border-r transform transition-transform duration-200 ease-in-out ${
             isMobileNavOpen ? "translate-x-0" : "-translate-x-full"
           }`}
-          aria-hidden={!isMobileNavOpen}
-        >
+          aria-hidden={!isMobileNavOpen}>
           <div className="px-6 py-6 border-b flex items-center justify-between">
             <Link
               href="/dashboard"
               className="block"
-              onClick={() => setIsMobileNavOpen(false)}
-            >
+              onClick={() => setIsMobileNavOpen(false)}>
               <span className="text-xl font-bold">Member Dashboard</span>
             </Link>
             <Button
               size="sm"
               variant="ghost"
-              onClick={() => setIsMobileNavOpen(false)}
-            >
+              onClick={() => setIsMobileNavOpen(false)}>
               ✕
             </Button>
           </div>
@@ -154,14 +155,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   key={item.href}
                   href={item.href}
                   className="block"
-                  onClick={() => setIsMobileNavOpen(false)}
-                >
+                  onClick={() => setIsMobileNavOpen(false)}>
                   <Button
                     variant={isActive ? "default" : "ghost"}
                     className={`w-full justify-start rounded-full gap-2 ${
                       isActive ? "font-semibold" : ""
-                    }`}
-                  >
+                    }`}>
                     <Icon icon={item.icon} className="h-4 w-4" />
                     {item.label}
                   </Button>
@@ -182,8 +181,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   size="sm"
                   variant="ghost"
                   onClick={() => setIsMobileNavOpen(true)}
-                  aria-label="Open menu"
-                >
+                  aria-label="Open menu">
                   {/* Simple hamburger icon */}
                   <svg
                     width="20"
@@ -193,8 +191,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                    strokeLinejoin="round">
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
